@@ -28,12 +28,16 @@ class TestLogin(WebDriverWrapper):
 
         # print("valid login")
 
-    def test_invalid_login(self):
-        self.driver.find_element(By.NAME, "username").send_keys("Admin123")
-        self.driver.find_element(By.NAME, "password").send_keys("admin12893")
+    @pytest.mark.parametrize("username,password,expected_error", [
+        ("saul", "saul123", "Invalid credentials"),
+        ("kim", "kim123", "Invalid credentials")
+    ])
+    def test_invalid_login(self, username, password, expected_error):
+        self.driver.find_element(By.NAME, "username").send_keys(username)
+        self.driver.find_element(By.NAME, "password").send_keys(password)
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         actual_error = self.driver.find_element(By.XPATH, "//p[contains(@class ,'oxd-alert-content-text')]").text
-        assert_that("Invalid credentials").is_equal_to(actual_error)
+        assert_that(expected_error).is_equal_to(actual_error)
         assert_that(actual_error).contains('Invalid')
 
 
