@@ -34,7 +34,10 @@ class TestLogin(WebDriverWrapper):
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         actual_error = self.driver.find_element(By.XPATH, "//p[contains(@class ,'oxd-alert-content-text')]").text
         assert_that("Invalid credentials").is_equal_to(actual_error)
+        assert_that (actual_error).contains('Invalid')
 
+
+# //p[contains(normalize-space(),'Invalid credentials')]
 
 class TestLoginUI(WebDriverWrapper):
 
