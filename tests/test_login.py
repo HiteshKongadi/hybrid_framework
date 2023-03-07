@@ -34,7 +34,7 @@ class TestLogin(WebDriverWrapper):
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         actual_error = self.driver.find_element(By.XPATH, "//p[contains(@class ,'oxd-alert-content-text')]").text
         assert_that("Invalid credentials").is_equal_to(actual_error)
-        assert_that (actual_error).contains('Invalid')
+        assert_that(actual_error).contains('Invalid')
 
 
 # //p[contains(normalize-space(),'Invalid credentials')]
@@ -50,3 +50,9 @@ class TestLoginUI(WebDriverWrapper):
         # get the login header and assert it
         actual_header = self.driver.find_element(By.XPATH, "//h5[contains(@class,'login')]").text
         assert_that("Login").is_equal_to(actual_header)
+
+    def test_login_placeholders(self):
+        actual_username_placeholder = self.driver.find_element(By.NAME, "username").get_attribute("placeholder")
+        actual_password_placeholder = self.driver.find_element(By.NAME, "password").get_attribute("placeholder")
+        assert_that("Username").is_equal_to(actual_username_placeholder)
+        assert_that("Password").is_equal_to(actual_password_placeholder)
