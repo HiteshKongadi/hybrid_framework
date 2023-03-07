@@ -5,6 +5,7 @@ from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
+from base.webdriver_listener import WebDriverWrapper
 
 
 # @pytest.fixture(scope="class", autouse=True)
@@ -12,18 +13,6 @@ from selenium.webdriver.common.by import By
 # print("class triggered")
 # yield
 # print("class end")
-
-class WebDriverWrapper:
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self):
-        # service = Service(executable_path==r"<filepath_of_chrome>")
-        # driver = webdriver.Chrome(Service=service)
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(30)
-        self.driver.get("https://opensource-demo.orangehrmlive.com/")
-        yield
-        self.driver.quit()
 
 
 class TestLogin(WebDriverWrapper):
@@ -38,6 +27,13 @@ class TestLogin(WebDriverWrapper):
         # time.sleep(10)
 
         # print("valid login")
+
+    def test_invalid_login(self):
+        self.driver.find_element(By.NAME, "username").send_keys("Admin123")
+        self.driver.find_element(By.NAME, "password").send_keys("admin12893")
+        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        actual_error = self.driver.find_element(By.XPATH, "//p[contains(@class ,'oxd-alert-content-text')]").text
+        assert_that("Invalid credentials").is_equal_to(actual_error)
 
 
 class TestLoginUI(WebDriverWrapper):
