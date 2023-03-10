@@ -7,3 +7,4 @@ test_employee_data = read_utils.get_excel_as_list("../test_data/orange_test_data
 # ("Admin", "admin123", "Peter", "j", "Wick", "Peter Wick", "Peter"),
 # ("Admin", "admin123", "John", "J", "Wick", "John Wick", "John")
 # ]
+test_invalid_file_type = read_utils.get_excel_as_list("../test_data/orange_test_data.xlsx","test_invalid_upload_file")
