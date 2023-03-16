@@ -6,7 +6,9 @@ from selenium import webdriver
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
 from base.webdriver_listener import WebDriverWrapper
+from pages.login_page import LoginPage
 from utilities import data_source
+
 
 # @pytest.fixture(scope="class", autouse=True)
 # def scope_class():
@@ -18,8 +20,11 @@ from utilities import data_source
 class TestLogin(WebDriverWrapper):
 
     def test_valid_login(self):
-        self.driver.find_element(By.NAME, "username").send_keys("Admin")
-        self.driver.find_element(By.NAME, "password").send_keys("admin123")
+        login_page = LoginPage(self.driver)
+        login_page.enter_username("Admin")
+        login_page.enter_password("admin123")
+        # self.driver.find_element(By.NAME, "username").send_keys("Admin")
+        # self.driver.find_element(By.NAME, "password").send_keys("admin123")
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
 
         actual_dashboard = self.driver.find_element(By.XPATH, "//h6").text
