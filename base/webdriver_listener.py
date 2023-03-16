@@ -1,11 +1,12 @@
 import pytest
 from selenium import webdriver
+from utilities import read_utils
 
 
 class WebDriverWrapper:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self):
-        browser_name = "chrome"
+        browser_name = read_utils.get_value_from_json("../test_data/data.json", "browser")
 
         if browser_name == "Edge":
             self.driver = webdriver.Edge()

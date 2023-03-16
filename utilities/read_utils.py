@@ -10,3 +10,11 @@ def get_csv_as_list(file_path):
 def get_excel_as_list(file_path, sheetname):
     df = pd.read_excel(io=file_path, sheet_name=sheetname)
     return df.values.tolist()
+
+
+"""method to get value from json file"""
+
+
+def get_value_from_json(filepath, key):
+    dic = pd.read_json(path_or_buf=filepath, typ="dictionary")
+    return dic[key]
